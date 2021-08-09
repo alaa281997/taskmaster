@@ -6,3 +6,12 @@
 ![img2](1.jpg)
 
 ![img3](2.jpg)
+
+<hr>
+
+### Lab27
+![img3](3.jpg)
+
+![img4](4.jpg)
+
+![img5](5.jpg)
