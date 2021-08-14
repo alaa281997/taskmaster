@@ -1,16 +1,12 @@
 package com.example.task_master;
 
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
-import android.support.design.widget.TextInputLayout;
-import android.support.v7.app.AppCompatActivity;
+
+import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
-import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
-
-import java.util.Objects;
 
 public class SettingsActivity extends AppCompatActivity {
 
@@ -21,7 +17,7 @@ public class SettingsActivity extends AppCompatActivity {
 
 
       SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);// getter
-            SharedPreferences.Editor preferenceEditor = preferences.edit();
+        SharedPreferences.Editor preferenceEditor = preferences.edit();
 
 
     findViewById(R.id.button7).setOnClickListener((view) -> {
@@ -34,4 +30,5 @@ public class SettingsActivity extends AppCompatActivity {
      });
 
     }
+
 }

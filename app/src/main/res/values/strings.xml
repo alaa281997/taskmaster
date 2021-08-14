@@ -3,4 +3,7 @@
     <string name="app_name">Task Master</string>
     <string name="next">Next</string>
     <string name="previous">Previous</string>
+    <string name="idtext">idText</string>
+    <string name="text">Text</string>
+    <string name="textview">TextView</string>
 </resources>

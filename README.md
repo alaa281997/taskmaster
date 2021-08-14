@@ -15,3 +15,9 @@
 ![img4](4.jpg)
 
 ![img5](5.jpg)
+
+<hr>
+
+### Lab28
+![img6](6.jpg)
+
