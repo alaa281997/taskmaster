@@ -1,16 +1,35 @@
 package com.example.task_master;
 
+import androidx.room.ColumnInfo;
+import androidx.room.Entity;
+import androidx.room.PrimaryKey;
+
+@Entity
 public class StatusItems {
+    @PrimaryKey(autoGenerate = true)
+    private long id;
+
+    @ColumnInfo(name = "task_name")
     private String title;
+
+    @ColumnInfo(name = "body")
     private String body;
-    private String state;
 
+    @ColumnInfo(name = "status_name")
+    private String status;
 
-
-    public StatusItems(String title, String body, String state) {
+    public StatusItems(String title, String body, String status) {
         this.title = title;
         this.body = body;
-        this.state = state;
+        this.status = status;
+    }
+
+    public long getId() {
+        return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
     }
 
     public String getTitle() {
@@ -21,8 +40,8 @@ public class StatusItems {
         return body;
     }
 
-    public String getState() {
-        return state;
+    public String getStatus() {
+        return status;
     }
     public void setTitle(String title) {
         this.title = title;
@@ -32,7 +51,7 @@ public class StatusItems {
         this.body = body;
     }
 
-    public void setState(String state) {
-        this.state = state;
+    public void setStatus(String status) {
+        this.status = status;
     }
 }

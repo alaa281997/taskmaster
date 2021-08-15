@@ -6,4 +6,6 @@
     <string name="idtext">idText</string>
     <string name="text">Text</string>
     <string name="textview">TextView</string>
+    <string name="add_task">add_task</string>
+    <string name="delete">Delete</string>
 </resources>
