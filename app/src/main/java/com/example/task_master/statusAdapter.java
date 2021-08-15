@@ -1,14 +1,15 @@
 package com.example.task_master;
 
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
-
-import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
 
@@ -19,6 +20,8 @@ public class statusAdapter extends RecyclerView.Adapter<statusAdapter.ViewHolder
 
     public interface OnItemClickListener {
         void onItemClicked(int position);
+        void onDeleteItem(int position);
+
     }
     public statusAdapter(List<StatusItems> statusItems,OnItemClickListener listener ) {
         this.statusItems = statusItems;
@@ -36,7 +39,8 @@ public class statusAdapter extends RecyclerView.Adapter<statusAdapter.ViewHolder
     @Override
     public void onBindViewHolder(@NonNull statusAdapter.ViewHolder holder, int position) {
         StatusItems items =  statusItems.get(position);
-        holder.statusL.setText(items.getState());
+        holder.statusL.setText(items.getStatus());
+        holder.bodyTask.setText(items.getBody());
         holder.titleL.setText(items.getTitle());
 
     }
@@ -48,20 +52,32 @@ public class statusAdapter extends RecyclerView.Adapter<statusAdapter.ViewHolder
 
     public static class ViewHolder extends RecyclerView.ViewHolder{
 
-        private TextView statusList;
         private TextView titleL;
         private TextView statusL;
+        private TextView bodyTask;
+        private ImageView delete;
 
         public ViewHolder(@NonNull View itemView ,OnItemClickListener listener) {
             super(itemView);
 
             statusL = itemView.findViewById(R.id.statusL);
+            bodyTask = itemView.findViewById(R.id.bodyTask1);
             titleL = itemView.findViewById(R.id.titleL);
+            delete = itemView.findViewById(R.id.delete);
+
 
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                  listener.onItemClicked(getAdapterPosition());
+                }
+            });
+            delete.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                   listener.onDeleteItem(getAdapterPosition());
+
+
                 }
             });
         }

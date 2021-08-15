@@ -21,3 +21,9 @@
 ### Lab28
 ![img6](6.jpg)
 
+
+<hr>
+
+### Lab29
+![img7](7.jpg)
+![img8](8.jpg)
