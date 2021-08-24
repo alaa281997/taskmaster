@@ -10,6 +10,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import androidx.room.Room;
 
 import android.os.Bundle;
+import android.provider.Settings;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -147,4 +148,8 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
+    public void goTostt(View view) {
+        Intent goToSettings = new Intent(MainActivity.this, SettingsActivity.class);
+        MainActivity.this.startActivity(goToSettings);
+    }
 }

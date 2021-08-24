@@ -19,7 +19,7 @@ public class TaskDetailActivity extends AppCompatActivity {
         String taskState = intent.getExtras().getString("status");
 
         ((TextView)findViewById(R.id.textView7)).setText(taskName);
-//        ((TextView)findViewById(R.id.textView8)).setText(taskBody);
+        ((TextView)findViewById(R.id.textView8)).setText(taskBody);
         ((TextView)findViewById(R.id.textView11)).setText(taskState);
 
     }
