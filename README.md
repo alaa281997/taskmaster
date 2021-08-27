@@ -26,8 +26,17 @@
 
 ### Lab29
 ![img7](7.jpg)
+
 ![img8](8.jpg)
 
 
 ### Lab31
 ![img9](9.png)
+
+
+### Lab32 
+
+*Added to AWS*
+![img10](10.png)
+
+![img11](11.png)
