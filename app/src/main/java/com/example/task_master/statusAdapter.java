@@ -18,6 +18,7 @@ public class statusAdapter extends RecyclerView.Adapter<statusAdapter.ViewHolder
     private OnItemClickListener listener;
 
 
+
     public interface OnItemClickListener {
         void onItemClicked(int position);
         void onDeleteItem(int position);
