@@ -91,6 +91,11 @@ public class MainActivity extends AppCompatActivity {
 
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
         String team = sharedPreferences.getString("teamName", "");
+
+        CharSequence userName = sharedPreferences.getString("UserNameLog", "Task Master");
+        setTitle(userName);
+
+
         statusItems = new ArrayList<>();
         if (team.equals("")) {
 //            getDataFromAPI();
@@ -206,5 +211,35 @@ public class MainActivity extends AppCompatActivity {
         Intent goToSettings = new Intent(MainActivity.this, SettingsActivity.class);
         startActivity(goToSettings);
     }
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.menu_main, menu);
+        return true;
+    }
 
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle action bar item clicks here. The action bar will
+        // automatically handle clicks on the Home/Up button, so long
+        // as you specify a parent activity in AndroidManifest.xml.
+        int id = item.getItemId();
+
+        //noinspection SimplifiableIfStatement
+//        if (id == R.id.action_settings) {
+//            return true;
+//        }
+
+        if(id == R.id.signout){
+            Amplify.Auth.signOut(
+                    () -> {
+                        Log.i("AuthQuickstart", "Signed out successfully");
+                        Intent intent = new Intent(MainActivity.this, Sign_in.class);
+                        startActivity(intent);
+                    },
+                    error -> Log.e("AuthQuickstart", error.toString())
+            );
+        }
+        return super.onOptionsItemSelected(item);
+    }
 }
