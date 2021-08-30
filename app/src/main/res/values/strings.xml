@@ -9,4 +9,11 @@
     <string name="add_task">add_task</string>
     <string name="delete">Delete</string>
     <string name="settings">Settings</string>
+    <string name="teams_list">Teams list</string>
+
+    <string-array name="team_names_array">
+        <item>TeamA</item>
+        <item>TeamB</item>
+        <item>TeamC</item>
+    </string-array>
 </resources>

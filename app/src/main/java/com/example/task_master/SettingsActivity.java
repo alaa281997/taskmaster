@@ -7,7 +7,9 @@ import android.preference.PreferenceManager;
 import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 import android.provider.Settings;
+import android.widget.ArrayAdapter;
 import android.widget.EditText;
+import android.widget.Spinner;
 import android.widget.Toast;
 
 public class SettingsActivity extends AppCompatActivity {
@@ -18,21 +20,35 @@ public class SettingsActivity extends AppCompatActivity {
         setContentView(R.layout.settings);
 
 
-      SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);// getter
-        SharedPreferences.Editor preferenceEditor = preferences.edit();
+        Spinner teamsList = findViewById(R.id.teamsId);
+        String[] teams = new String[]{"Team 1", "Team 2", "Team 3"};
+        ArrayAdapter<String> TeamsAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, teams);
+        teamsList.setAdapter(TeamsAdapter);
+
+        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+            SharedPreferences.Editor preferenceEditor = sharedPreferences.edit();
+
+            findViewById(R.id.button7).setOnClickListener(view -> {
+                String username = ((EditText) findViewById(R.id.editTextTextPersonName3)).getText().toString();
 
 
-    findViewById(R.id.button7).setOnClickListener((view) -> {
-        EditText address = findViewById(R.id.editTextTextPersonName3);
-        preferenceEditor.putString("nameKey", address.getText().toString());
-        preferenceEditor.apply();
-        System.out.println(address);
-        Toast toast = Toast.makeText(this, "Name Saved!", Toast.LENGTH_LONG);
-        toast.show();
-        Intent mainIntent = new Intent(SettingsActivity.this, MainActivity.class);
-        startActivity(mainIntent);
-     });
+                Spinner teamSpinner = (Spinner) findViewById(R.id.teamsId);
+                String teamName = teamSpinner.getSelectedItem().toString();
 
-    }
+                preferenceEditor.putString("userName", username);
+                preferenceEditor.putString("teamName", teamName);
+                preferenceEditor.apply();
+
+                Toast toast = Toast.makeText(this, "Saved", Toast.LENGTH_LONG);
+                toast.show();
+
+                Intent mainIntent = new Intent(this, MainActivity.class);
+                startActivity(mainIntent);
+            });
+
+        }
 
 }
+
+
+
