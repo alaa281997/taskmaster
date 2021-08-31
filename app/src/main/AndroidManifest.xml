@@ -13,18 +13,21 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Task_Master"
         android:usesCleartextTraffic="true">
-        <activity android:name=".TaskActivity" />
-        <activity android:name=".SettingsActivity" />
-        <activity android:name=".TaskDetailActivity" />
-        <activity android:name=".AllTaskActivity" />
-        <activity android:name=".AddTaskActivity" />
-        <activity android:name=".MainActivity">
+        <activity android:name=".ActivityVerification"></activity>
+        <activity android:name=".Sign_in" />
+        <activity android:name=".Sign_up" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".TaskActivity" />
+        <activity android:name=".SettingsActivity" />
+        <activity android:name=".TaskDetailActivity" />
+        <activity android:name=".AllTaskActivity" />
+        <activity android:name=".AddTaskActivity" />
+        <activity android:name=".MainActivity"/>
     </application>
 
 </manifest>
