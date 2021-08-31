@@ -32,7 +32,7 @@ import com.amplifyframework.core.Amplify;
 import com.amplifyframework.datastore.AWSDataStorePlugin;
 import com.amplifyframework.datastore.generated.model.Task;
 import com.amplifyframework.datastore.generated.model.Team;
-import com.example.task_master.databinding.ActivityMainBinding;
+//import com.example.task_master.databinding.ActivityMainBinding;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -41,13 +41,16 @@ import java.util.Objects;
 public class MainActivity extends AppCompatActivity {
 
     private static final String TAG = "MainActivity";
-    private List<StatusItems> statusItems;
+    private List<Task> statusItems;
+    private List<StatusItems> statusItemss;
 
     private statusAdapter adapter;
 
     private TaskDao taskDao;
 
     private Handler handler;
+
+    public static final String Uploaded_FILE = "taskFile";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -98,7 +101,7 @@ public class MainActivity extends AppCompatActivity {
 
         statusItems = new ArrayList<>();
         if (team.equals("")) {
-//            getDataFromAPI();
+//            getTasksDataFromAPI();
         } else {
             ((TextView) findViewById(R.id.team)).setText(team + " Tasks");
 //            getDataFromAPI(team);
@@ -110,25 +113,27 @@ public class MainActivity extends AppCompatActivity {
         TaskDatabase  database = Room.databaseBuilder(getApplicationContext(),
                 TaskDatabase.class, AddTaskActivity.Task_database).allowMainThreadQueries().build();
         taskDao = database.taskDao();
-        statusItems = taskDao.findAll();
+       statusItemss = taskDao.findAll();
 
         adapter = new statusAdapter(statusItems, new statusAdapter.OnItemClickListener() {
             @Override
             public void onItemClicked(int position) {
                 Intent goToDetailsIntent = new Intent(getApplicationContext(), TaskDetailActivity.class);
-                goToDetailsIntent.putExtra("taskTitle", statusItems.get(position).getTitle());
-                goToDetailsIntent.putExtra("taskBody", statusItems.get(position).getBody());
-                goToDetailsIntent.putExtra("taskStatus", statusItems.get(position).getStatus());
+                goToDetailsIntent.putExtra("taskTitle", statusItemss.get(position).getTitle());
+                goToDetailsIntent.putExtra("taskBody", statusItemss.get(position).getBody());
+                goToDetailsIntent.putExtra("taskStatus", statusItemss.get(position).getStatus());
+                goToDetailsIntent.putExtra(Uploaded_FILE, statusItems.get(position).getFileName());
+
                 startActivity(goToDetailsIntent);
             }
 
             @Override
             public void onDeleteItem(int position) {
 
-                taskDao.delete(statusItems.get(position));
-                statusItems.remove(position);
-
-                Toast.makeText(MainActivity.this, "Item deleted", Toast.LENGTH_SHORT).show();
+//                taskDao.delete(statusItems.get(position));
+//                statusItems.remove(position);
+//
+//                Toast.makeText(MainActivity.this, "Item deleted", Toast.LENGTH_SHORT).show();
 
 
             }
@@ -156,8 +161,8 @@ public class MainActivity extends AppCompatActivity {
     private void getTasksDataFromAPI() {
         Amplify.API.query(ModelQuery.list(com.amplifyframework.datastore.generated.model.Task.class),
                 response -> {
-                    for (com.amplifyframework.datastore.generated.model.Task task : response.getData()) {
-                        statusItems.add(new StatusItems(task.getTitle(), task.getBody(), task.getStatus()));
+                    for (Task task : response.getData()) {
+                        statusItems.add(task);
                         Log.i(TAG, "onCreate: the Tasks DynamoDB are => " + task.getTitle());
                     }
                     handler.sendEmptyMessage(1);
@@ -193,10 +198,10 @@ public class MainActivity extends AppCompatActivity {
     private void getDataFromAPI(String teamName) {
         Amplify.API.query(ModelQuery.list(com.amplifyframework.datastore.generated.model.Task.class),
                 response -> {
-                    for (com.amplifyframework.datastore.generated.model.Task task : response.getData()) {
+                    for (Task task : response.getData()) {
 
                         if ((task.getTeam().getTeamName()).equals(teamName)) {
-                            statusItems.add(new StatusItems(task.getTitle(), task.getBody(), task.getStatus()));
+                            statusItems.add(task);
                             Log.i(TAG, "onCreate: the Tasks DynamoDB are => " + task.getTitle());
                             Log.i(TAG, "onCreate: the Team DynamoDB are => " + task.getTeam().getTeamName());
                         }

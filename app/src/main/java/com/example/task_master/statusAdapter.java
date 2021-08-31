@@ -11,10 +11,12 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.amplifyframework.datastore.generated.model.Task;
+
 import java.util.List;
 
 public class statusAdapter extends RecyclerView.Adapter<statusAdapter.ViewHolder> {
-    private final List<StatusItems> statusItems;
+    private final List<Task> statusItems;
     private OnItemClickListener listener;
 
 
@@ -24,7 +26,7 @@ public class statusAdapter extends RecyclerView.Adapter<statusAdapter.ViewHolder
         void onDeleteItem(int position);
 
     }
-    public statusAdapter(List<StatusItems> statusItems,OnItemClickListener listener ) {
+    public statusAdapter(List<Task> statusItems,OnItemClickListener listener ) {
         this.statusItems = statusItems;
         this.listener = listener;
     }
@@ -39,7 +41,7 @@ public class statusAdapter extends RecyclerView.Adapter<statusAdapter.ViewHolder
 
     @Override
     public void onBindViewHolder(@NonNull statusAdapter.ViewHolder holder, int position) {
-        StatusItems items =  statusItems.get(position);
+        Task items =  statusItems.get(position);
         holder.statusL.setText(items.getStatus());
         holder.bodyTask.setText(items.getBody());
         holder.titleL.setText(items.getTitle());

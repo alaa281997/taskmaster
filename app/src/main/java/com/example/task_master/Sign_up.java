@@ -15,6 +15,7 @@ import com.amplifyframework.auth.cognito.AWSCognitoAuthPlugin;
 import com.amplifyframework.auth.options.AuthSignUpOptions;
 import com.amplifyframework.core.Amplify;
 import com.amplifyframework.datastore.AWSDataStorePlugin;
+import com.amplifyframework.storage.s3.AWSS3StoragePlugin;
 
 public class Sign_up extends AppCompatActivity {
 
@@ -77,6 +78,7 @@ public class Sign_up extends AppCompatActivity {
             Amplify.addPlugin(new AWSCognitoAuthPlugin());
             Amplify.addPlugin(new AWSApiPlugin());
             Amplify.configure(getApplicationContext());
+            Amplify.addPlugin(new AWSS3StoragePlugin());
             Log.i(TAG, "Successfully initialized Amplify plugins");
         } catch (AmplifyException exception) {
             Log.e(TAG, "Failed to initialize Amplify plugins => " + exception.toString());
