@@ -8,7 +8,8 @@
         android:layout_width="match_parent"
         android:layout_height="300dp"
         android:gravity="center"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:background="#BFAAAA">
 
         <EditText
             android:id="@+id/emailId"

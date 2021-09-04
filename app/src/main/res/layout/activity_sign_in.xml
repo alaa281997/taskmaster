@@ -13,6 +13,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         android:layout_marginTop="35dp"
+        android:background="#C19B9B"
         android:gravity="center_horizontal"
         android:text="Sign In"
         android:textAlignment="center"
@@ -27,7 +28,9 @@
         android:layout_below="@+id/text1"
         android:orientation="vertical">
 
-        <include layout="@layout/sign_in_layout" />
+        <include
+            layout="@layout/sign_in_layout"
+            android:background="#EFE2E2" />
 
     </LinearLayout>
 
