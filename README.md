@@ -53,3 +53,28 @@
 ![img14](14.png)
 
 ![img15](15.png)
+
+
+### Lab34
+
+*Add Apk*
+
+
+
+### Lab36
+
+
+
+![img16](16.png)
+
+![img17](17.png)
+
+![img18](18.png)
+
+
+### Lab37
+
+
+![img19](19.jpg)
+
+![img20](20.jpg)

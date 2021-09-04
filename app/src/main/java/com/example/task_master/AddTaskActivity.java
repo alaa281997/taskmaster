@@ -1,17 +1,19 @@
 package com.example.task_master;
 
+import androidx.annotation.Nullable;
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.room.Room;
 
-import android.content.Context;
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.net.ConnectivityManager;
+import android.os.Build;
 import android.os.Bundle;
+
+import android.os.FileUtils;
 import android.preference.PreferenceManager;
 import android.util.Log;
-import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
@@ -23,18 +25,33 @@ import com.amplifyframework.api.graphql.model.ModelQuery;
 import com.amplifyframework.core.Amplify;
 import com.amplifyframework.datastore.generated.model.Team;
 
+
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.InputStream;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 
 public class AddTaskActivity extends AppCompatActivity {
 
     public static final String Task_database = "Task_database";
+    public static final int Code = 200;
 
     private static final String TAG = "AddTaskActivity";
 
     private TaskDao taskDao;
     private final List<Team> teams = new ArrayList<>();
+
+    static String pattern = "yy-MM-dd";
+    @SuppressLint("SimpleDateFormat")
+    static SimpleDateFormat simpleDateFormat = new SimpleDateFormat(pattern);
+
+    private static String FileUploadName= simpleDateFormat.format(new Date());
+    private static final String extension = null;
+    private static File uploadFile = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,6 +71,9 @@ public class AddTaskActivity extends AppCompatActivity {
         ArrayAdapter<String> TeamsAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, teams);
         teamsList.setAdapter(TeamsAdapter);
 
+        Button uploadFile = findViewById(R.id.uploadFile);
+        uploadFile.setOnClickListener(Add -> getFileFromDevice());
+
 
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
         SharedPreferences.Editor preferenceEditor = sharedPreferences.edit();
@@ -62,6 +82,7 @@ public class AddTaskActivity extends AppCompatActivity {
         TaskDatabase database = Room.databaseBuilder(getApplicationContext(), TaskDatabase.class, "Task_database")
                 .allowMainThreadQueries().build();
         taskDao = database.taskDao();
+
 
 
         findViewById(R.id.button2).setOnClickListener(view -> {
@@ -94,7 +115,20 @@ public class AddTaskActivity extends AppCompatActivity {
                 .body(taskBody)
                 .status(taskState)
                 .team(team)
+                .fileName(FileUploadName +"."+ extension.split("/")[1])
                 .build();
+
+
+        Amplify.Storage.uploadFile(
+                FileUploadName +"."+ extension.split("/")[1],
+                uploadFile,
+                success -> {
+                    Log.i(TAG, "uploadFileToS3: succeeded " + success.getKey());
+                },
+                error -> {
+                    Log.e(TAG, "uploadFileToS3: failed " + error.toString());
+                }
+        );
 
         Amplify.API.mutate(ModelMutation.create(task),
                 success -> Log.i(TAG, "Saved item: " + task.getTitle()),
@@ -102,6 +136,44 @@ public class AddTaskActivity extends AppCompatActivity {
         Toast toast = Toast.makeText(this, "Task saved", Toast.LENGTH_LONG);
         toast.show();
 
+    }
+    @RequiresApi(api = Build.VERSION_CODES.Q)
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (requestCode == Code && resultCode == RESULT_OK) {
+            Log.i(TAG, "onActivityResult: returned from file explorer");
+            Log.i(TAG, "onActivityResult: => " + data.getData());
+
+            File uploadFile = new File(getApplicationContext().getFilesDir(), "uploadFile");
+
+            try {
+                InputStream inputStream = getContentResolver().openInputStream(data.getData());
+                FileUtils.copy(inputStream, new FileOutputStream(uploadFile));
+            } catch (Exception exception) {
+                Log.e(TAG, "onActivityResult: file upload failed" + exception.toString());
+            }
+
+            Amplify.Storage.uploadFile(
+                    new Date().toString() + ".png",
+                    uploadFile,
+                    success -> {
+                        Log.i(TAG, "uploadFileToS3: succeeded " + success.getKey());
+                    },
+                    error -> {
+                        Log.e(TAG, "uploadFileToS3: failed " + error.toString());
+                    }
+            );
+        }
+    }
+
+
+    private void getFileFromDevice() {
+        Intent upload = new Intent(Intent.ACTION_GET_CONTENT);
+        upload.setType("*/*");
+        upload = Intent.createChooser(upload, "Choose a File");
+        startActivityForResult(upload, Code);
     }
 
     private void getDataFromAPI() {
@@ -126,3 +198,4 @@ public class AddTaskActivity extends AppCompatActivity {
     }
 
 }
+
